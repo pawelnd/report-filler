@@ -66,7 +66,7 @@ public class PGSTimeSheetConnector {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, pgsLoginHeaders);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("pgs.url") + "logowanie?ReturnUrl=%2f", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("pgs.url") + "logowanie", request, String.class);
         cookieList.addAll(response.getHeaders().get("Set-Cookie"));
     }
 }

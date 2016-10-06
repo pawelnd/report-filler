@@ -14,4 +14,10 @@ public class ReportGenerator {
                 .map(JiraIssue::getKey)
                 .collect(Collectors.joining(", "));
     }
+
+    public String issuesDetailedInfo(List<JiraIssue> issuesSelectedByUser) {
+        return issuesSelectedByUser.stream()
+                .map(x->x.getKey() + " : " +x.getFields().getSummary())
+                .collect(Collectors.joining("\n"));
+    }
 }

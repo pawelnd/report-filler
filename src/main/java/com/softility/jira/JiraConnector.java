@@ -1,6 +1,7 @@
 package com.softility.jira;
 
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -17,6 +18,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@Log
 public class JiraConnector {
     @Autowired
     private Environment env;
@@ -33,10 +35,12 @@ public class JiraConnector {
 
     private String generateSelectionQuery() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
-        return MessageFormat.format("{0}search?jql=assignee={1} AND REVIEWER={1} and updated >={2}",
+        String query = MessageFormat.format("{0}search?jql=assignee={1} and updated >=\"{2}\"",
                 env.getProperty("jira.api.url"),
                 env.getProperty("jira.user.login"),
-                dateFormat.format(new Date())  );
+                dateFormat.format(new Date()));
+        log.info(query);
+        return query;
     }
 
     private HttpHeaders createHeaders( String username, String password ){
